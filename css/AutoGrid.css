@@ -89,9 +89,16 @@ div {
     width: 220px;
 }
 
+.cell2 {
+    display: flex;
+    flex: fit-content;
+    padding: 10px;
+    width: 20%;
+}
+
 .data {
     justify-content: middle;
-    flex: 1;
+    flex: 1
 }
 
 @media only screen and (max-width: 640px) {
