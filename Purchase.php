@@ -8,7 +8,7 @@
 
 include_once 'lib/ShoppingCart.php';
 include_once 'lib/DBHelper.php';
-include_once 'Cookies.php';
+include_once 'lib/Cookies.php';
 
 session_start();
 $shoppingCart = $_SESSION[SHOPPING_CART];

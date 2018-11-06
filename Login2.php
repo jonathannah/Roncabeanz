@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dronca
- * Date: 10/20/18
- * Time: 8:51 PM
- */
 
 include 'db_connnection.php';
 include 'lib/Cookies.php';
@@ -15,23 +9,28 @@ $conn = OpenCon();
 
 $msg = "hmmm!";
 
-if(isset($_POST['email']) AND isset($_POST['psw'])) {
-    $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE emailAddress='{$_POST['email']}' ";
+$uname = htmlspecialchars($_GET["uname"]);
+$upwd = htmlspecialchars($_GET["psw"]);
+
+
+if(isset($uname) AND isset($upwd)) {
+    $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE LOWER(emailAddress)=LOWER('$uname') ";
     $result = mysqli_query($conn, $query) or die("The email or password you entered is not valid");
 
     $fields = mysqli_fetch_fields($result);
 
     $row = mysqli_fetch_array($result);
-    $pwd = $row[$fields[4]->name];
+    $pwd = $row["password"];
 
 
-    if ($pwd == $_POST['psw']) {
+    if ($upwd == $pwd) {
         setcookie(COOKIE_EMAIL, $row[$fields[2]->name], time() + (86400 * 30), "/");
         setcookie(COOKIE_NAME, $row[$fields[0]->name], time() + (86400 * 30), "/");
          //header("Refresh:$secondsWait");
-        $msg = "Login successful";
+        $msg = "Login successful: ".$uname.", ".$pwd;
     } else {
-        $msg = "The email '{$_POST['email']}' or password '{$_POST['psw']}'' you entered is not valid ({$pwd})";
+        $msg = "The email '$uname' or password '$upwd' you entered is not valid pwd ($pwd)";
+        error_log("Login Error: ".$msg);
     }
 }
 

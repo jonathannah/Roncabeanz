@@ -17,11 +17,11 @@
 
 <body>
 <?php
-    define(ROW_COUNT, 5);
+    const ROW_COUNT = 5;
     include_once 'lib/ShoppingCart.php';
     include_once 'lib/Coffee.php';
     include_once 'lib/DBHelper.php';
-    include_once 'Cookies.php';
+    include_once 'lib/Cookies.php';
     include_once 'lib/RecentViews.php';
 
     session_start();
@@ -87,47 +87,85 @@
     <div>
         <h2><br>Trending Coffees</h2>
 
-    </div>
-    <div class="container">
-        <?php
-            $numItems = 0;
-            $query = "SELECT productCode, name, country, price, units, description, thumbnail, viewCount FROM `Coffee` WHERE 1 ORDER BY viewCount DESC";
-            $result = $dbh->query($query);
-            while (($row = mysqli_fetch_array($result)) AND $numItems < ROW_COUNT){
-                $coffee = Coffee::fromRow($row);
-                $prodName = $row["country"]." ".$row["name"];
-        ?>
-                <div class="cell">
-                    <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
-                        <div class="content">
-                            <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
-                            <span class="data"> <h3><?php echo $prodName; ?></h3></span>
-                        </div>
-                    </a>
-                </div>
-        <?php
-            ++$numItems;
-            }
-        ?>
 
-    </div>
+        <div class="container">
+            <?php
+                $numItems = 0;
+                $query = "SELECT productCode, name, country, price, units, description, thumbnail, viewCount FROM `Coffee` WHERE 1 ORDER BY viewCount DESC";
+                $result = $dbh->query($query);
+                while (($row = mysqli_fetch_array($result)) AND $numItems < ROW_COUNT){
+                    $coffee = Coffee::fromRow($row);
+                    $prodName = $row["country"]." ".$row["name"];
+            ?>
+                    <div class="cell">
+                        <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
+                            <div class="content">
+                                <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
+                                <span class="data"> <h3><?php echo $prodName; ?></h3></span>
+                            </div>
+                        </a>
+                    </div>
+            <?php
+                ++$numItems;
+                }
+            ?>
 
-<?php /*
-    <div>
-        <h2>Buy Again</h2>
-        <div class="wide_row">
-           <?php for($i = 0; $i < ROW_COUNT; ++$i){?>
-               <div class="wide_column">
-                    <div class="content">
-                        <img src="images/CoffeeThumbnail.jpg" style="width:100%">
-                        <h3>BItem</h3>
-                   </div>
-               </div>
-            <?php } ?>
         </div>
     </div>
- */?>
-<?php $dbh->close(); ?>
+
+    <?php
+        if(isset($_COOKIE[COOKIE_EMAIL])) {
+            $user = $_COOKIE[COOKIE_EMAIL];
+        } else {
+            $user = "";
+        }
+
+        if($user != "")
+        {
+            $left = "SELECT OrderItem.orderId, itemNumber, productCode from OrderItem ";
+            $right = "LEFT JOIN Orders on OrderItem.orderId = Orders.orderId ";
+            $cond ="WHERE (Orders.customerId ='$user') ORDER BY orderId DESC";
+            $query = $left.$right.$cond;
+            $result = $dbh->query($query);
+            $items = array();
+            while (($row = mysqli_fetch_array($result)) AND count($items) < ROW_COUNT){
+                array_push($items, $row["productCode"]);
+                $items = array_unique($items);
+            }
+
+            if(count($items) > 0)
+            {
+            ?>
+                <div>
+                    <h2><br>Buy Again</h2>
+                    <div class="container">
+
+                            <?php
+                            foreach($items as $item){
+                                $query = "SELECT productCode, name, country, price, units, description, thumbnail, viewCount FROM `Coffee` WHERE productCode=$item";
+                                $result = $dbh->query($query);
+                                $coffee = Coffee::fromRow(mysqli_fetch_array($result));
+                                ?>
+                                    <div class="cell">
+
+                                         <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
+                                            <div class="content">
+                                                <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
+                                                <span class="data"> <h3><?php echo $coffee->displayName(); ?></h3></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                <?php
+                            }?>
+                    </div>
+                </div>
+            <?php
+            }
+
+        }
+
+        $dbh->close();
+    ?>
 </body>
 </html>
 

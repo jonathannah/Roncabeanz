@@ -1,6 +1,6 @@
 <?php
 include_once 'lib/DBHelper.php';
-include_once 'Cookies.php';
+include_once 'lib/Cookies.php';
 
 $dbh = new DBHelper();
 

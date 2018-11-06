@@ -7,7 +7,7 @@
  */
 
 include 'db_connnection.php';
-include 'Cookies.php';
+include 'lib/Cookies.php';
 
 session_start();
 

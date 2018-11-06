@@ -6,7 +6,7 @@
  * Time: 9:49 PM
  */
 
-include_once 'Cookies.php';
+include_once 'lib/Cookies.php';
 
 session_start();
 
