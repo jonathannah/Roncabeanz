@@ -11,8 +11,19 @@ define('MAX_VIEWS', 5);
 
 class TotalViews
 {
-    private $totalViews = array("0"=>1, "1"=>1, "2"=>1, "3"=>1, "4"=>1);
-    private $viewName = "";
+    private $totalViews = array('P_0'=>1, 'P_1'=>1, 'P_2'=>1, 'P_3'=>1, 'P_4'=>1);
+    private $viewName_keys = "";
+    private $viewName_vals = "";
+
+    private function getIndex($productCode)
+    {
+        return "P_"."$productCode";
+    }
+
+    private function fromIndex($index)
+    {
+        return substr($index, 2);
+    }
 
     function __construct()
     {
@@ -20,20 +31,34 @@ class TotalViews
         if(isset($_COOKIE[$cn])) {
             $replace = array(' ', '.');
             $name = str_replace($replace, '_', $_COOKIE[$cn]);
-            $this->viewName = "RoncabeanzTotalViews"."_".$name;
+            $this->viewName_keys = "RoncabeanzTotalViews_keys"."_".$name;
+            $this->viewName_vals= "RoncabeanzTotalViews_vals"."_".$name;
         } else {
-            $this->viewName = "RoncabeanzTotalViews";
+            $this->viewName_keys = "RoncabeanzTotalViews_keys"."_";
+            $this->viewName_vals= "RoncabeanzTotalViews_vals"."_";
         }
 
-        if(isset($_COOKIE[$this->viewName]))
+        if(isset($_COOKIE[$this->viewName_keys]) && isset($_COOKIE[$this->viewName_vals]))
         {
-            $this->totalViews = explode(',', $_COOKIE[$this->viewName]);
+            $keys = explode(',', $_COOKIE[$this->viewName_keys]);
+            $vals = explode(',',  $_COOKIE[$this->viewName_vals]);
+
+            for($i=0; $i < min(count($keys), count($vals)); ++$i){
+                $this->totalViews[$keys[$i]] = $vals[$i];
+            }
         }
+
+        $ak = array_keys($this->totalViews);
+        $av = array_values($this->totalViews);
+        /*
+        for($i = 0; $i < count($av); ++$i){
+            error_log("(Key: ".$ak[$i]." Value: ".$av[$i].") ");
+        }*/
      }
 
     function put($productCode)
     {
-        $idx = (string) $productCode;
+        $idx = $this->getIndex($productCode);
 
         if($this->totalViews[$idx] == null)
         {
@@ -41,9 +66,16 @@ class TotalViews
         }
         $this->totalViews[$idx] = intval($this->totalViews[$idx]) + 1;
 
+        $ak = array_keys($this->totalViews);
+        $av = array_values($this->totalViews);
 
-        $cookVal = implode(',', $this->totalViews);
-        setcookie($this->viewName, $cookVal, time() + (86400 * 30), "/");
+
+        $cookVal = implode(',', $ak);
+        setcookie($this->viewName_keys, $cookVal, time() + (86400 * 30), "/");
+
+        $cookVal = implode(',', $av);
+        setcookie($this->viewName_vals, $cookVal, time() + (86400 * 30), "/");
+
     }
 
     function getValues()
@@ -54,16 +86,6 @@ class TotalViews
     function size()
     {
         return count($this->totalViews);
-    }
-
-    function get($idx)
-    {
-        if($idx >= 0 && $idx < count($this->totalViews))
-        {
-            return $this->totalViews[$idx];
-        }
-
-        return -1;
     }
 
     function viewName()
@@ -77,9 +99,10 @@ class TotalViews
 
         $ret = array();
         $i = 0;
-        foreach ($this->totalViews as $key => $value)
+        $ak = array_keys($this->totalViews);
+        foreach ($ak as $key)
         {
-            $ret[$i] = $key;
+            $ret[$i] = $this->fromIndex($key);
             if(++$i >= MAX_VIEWS){
                 break;
             }
