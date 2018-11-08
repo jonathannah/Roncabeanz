@@ -5,15 +5,15 @@
  * Date: 11/1/18
  * Time: 8:11 AM
  */
-include_once 'lib/Cookies.php';
+include_once 'Cookies.php';
 
 define('MAX_VIEWS', 5);
 
 class TotalViews
 {
-    private $totalViews = array('P_0'=>1, 'P_1'=>1, 'P_2'=>1, 'P_3'=>1, 'P_4'=>1);
-    private $viewName_keys = "";
-    private $viewName_vals = "";
+    private $totalViews = array();
+
+    private $viewName = "";
 
     private function getIndex($productCode)
     {
@@ -25,35 +25,59 @@ class TotalViews
         return substr($index, 2);
     }
 
+    private function readCookie()
+    {
+        if(isset($_COOKIE[$this->viewName])) {
+            $this->totalViews = array();
+            $cols = explode(';', $_COOKIE[$this->viewName]);
+
+            foreach ($cols as $column) {
+                if (strlen($column) > 3){
+                    $fields = explode(':', $column);
+                    $this->totalViews[$fields[0]] = intval($fields[1]);
+                }
+            }
+        }
+    }
+
+    private function writeCookie()
+    {
+        $ak = array_keys($this->totalViews);
+        $av = array_values($this->totalViews);
+
+        $strVal = "";
+
+        for($i = 0; $i<count($ak); ++$i)
+        {
+            $strVal = $strVal.sprintf( "%s:%d;", $ak[$i], $av[$i]);
+        }
+
+        setcookie($this->viewName, $strVal, time() + (86400 * 30), "/");
+    }
+
+    private function dump()
+    {
+        $ak = array_keys($this->totalViews);
+        $av = array_values($this->totalViews);
+
+        for($i = 0; $i < count($av); ++$i){
+            error_log("(Key: ".$ak[$i]." Value: ".$av[$i].") ");
+        }
+    }
+
     function __construct()
     {
         $cn = "RoncabeanzUser";
         if(isset($_COOKIE[$cn])) {
             $replace = array(' ', '.');
             $name = str_replace($replace, '_', $_COOKIE[$cn]);
-            $this->viewName_keys = "RoncabeanzTotalViews_keys"."_".$name;
-            $this->viewName_vals= "RoncabeanzTotalViews_vals"."_".$name;
+            $this->viewName =  "RoncabeanzTotalViews"."_".$name;
         } else {
-            $this->viewName_keys = "RoncabeanzTotalViews_keys"."_";
-            $this->viewName_vals= "RoncabeanzTotalViews_vals"."_";
+            $this->viewName= "RoncabeanzTotalViews"."_";
         }
 
-        if(isset($_COOKIE[$this->viewName_keys]) && isset($_COOKIE[$this->viewName_vals]))
-        {
-            $keys = explode(',', $_COOKIE[$this->viewName_keys]);
-            $vals = explode(',',  $_COOKIE[$this->viewName_vals]);
+        $this->readCookie();
 
-            for($i=0; $i < min(count($keys), count($vals)); ++$i){
-                $this->totalViews[$keys[$i]] = $vals[$i];
-            }
-        }
-
-        $ak = array_keys($this->totalViews);
-        $av = array_values($this->totalViews);
-        /*
-        for($i = 0; $i < count($av); ++$i){
-            error_log("(Key: ".$ak[$i]." Value: ".$av[$i].") ");
-        }*/
      }
 
     function put($productCode)
@@ -66,15 +90,7 @@ class TotalViews
         }
         $this->totalViews[$idx] = intval($this->totalViews[$idx]) + 1;
 
-        $ak = array_keys($this->totalViews);
-        $av = array_values($this->totalViews);
-
-
-        $cookVal = implode(',', $ak);
-        setcookie($this->viewName_keys, $cookVal, time() + (86400 * 30), "/");
-
-        $cookVal = implode(',', $av);
-        setcookie($this->viewName_vals, $cookVal, time() + (86400 * 30), "/");
+        $this->writeCookie();
 
     }
 
