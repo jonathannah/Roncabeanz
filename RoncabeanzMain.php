@@ -23,6 +23,7 @@
     include_once 'lib/DBHelper.php';
     include_once 'lib/Cookies.php';
     include_once 'lib/RecentViews.php';
+    include_once 'lib/TotalViews.php';
 
     session_start();
     $_SESSION['ref'] = $_SERVER['SCRIPT_NAME'];
@@ -84,6 +85,45 @@
             <?php } ?>
         </div>
     </div>
+<div>
+    <?php
+        if(isset($_COOKIE[COOKIE_NAME])) {
+        $user = $_COOKIE[COOKIE_NAME];
+        } else {
+        $user = "<>";
+        }
+        ?>
+
+    <h2>Viewed most by <?php echo $user ?></h2>
+    <div class="container">
+        <?php
+        $tv = new TotalViews();
+        $tvs = $tv->topFive();
+        $recentProds = array();
+        $idx = 0;
+        foreach($tvs as $productCode){
+            $coffee = Coffee::fromQuery($productCode);
+            $recentProds[$idx++] = array
+            (
+                'country' => $coffee->country,
+                'name' => $coffee->name,
+                'productCode' => $coffee->productCode,
+                'thumbnail' => $coffee->thumbnail
+            );
+
+        }
+        foreach($recentProds as $cur){
+            $prodName = $cur['country']." ".$cur['name'];
+            ?>
+            <div class="cell">
+                <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
+                    <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
+                    <span class="data"> <h3><?php echo $prodName ?></h3></span>
+                </a>
+            </div>
+        <?php } ?>
+    </div>
+</div>
     <div>
         <h2><br>Trending Coffees</h2>
 

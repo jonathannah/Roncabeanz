@@ -2,12 +2,16 @@
 <?php
 
 include_once 'lib/RecentViews.php';
+include_once 'lib/TotalViews.php';
 include_once 'lib/Coffee.php';
 include_once 'lib/DBHelper.php';
 
 $rid = htmlspecialchars($_GET["productCode"]);
 $rViews = new RecentViews();
 $rViews->put($rid);
+
+$tViews = new TotalViews();
+$tViews->put($rid);
 
 $dbh = new DBHelper();
 ?>
