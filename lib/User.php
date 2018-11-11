@@ -7,6 +7,7 @@
  */
 
 include_once "DBHelper.php";
+include_once 'Address.php';
 
 class User
 {
@@ -15,6 +16,7 @@ class User
     public $email;
     public $password;
     public $group;
+    public $primaryAddr;
 
     public static function fromQuery($uid)
     {
@@ -36,6 +38,9 @@ class User
         $user->email = $row["emailAddress"];
         $user->password = $row["password"];
         $user->group = $row["groupID"];
+
+        $user->primaryAddr = Address::fromQuery($user->email);
+
 
         return $user;
     }

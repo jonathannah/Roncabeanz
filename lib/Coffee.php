@@ -13,9 +13,10 @@ class Coffee
     public $country;
     public $name;
     public $price;
-    public $units;
     public $description;
     public $thumbnail;
+    public $viewCount;
+    public $avgRating = 0;
 
     public function __construct()
     {
@@ -25,7 +26,7 @@ class Coffee
     public static function fromQuery($pcode)
     {
         $dbh = new DBHelper();
-        $query = "SELECT productCode, name, country, price, units, description, thumbnail FROM Roncabeanz.Coffee  WHERE productCode = '$pcode' ";
+        $query = "SELECT productCode, name, country, price, description, thumbnail, viewCount FROM Roncabeanz.Coffee  WHERE productCode = '$pcode' ";
         $result = $dbh->query($query);
         $row = mysqli_fetch_array($result);
         return self::fromRow($row);
@@ -45,8 +46,8 @@ class Coffee
         $this->country = $row["country"];
         $this->name = $row["name"];
         $this->price = $row["price"];
-        $this->units = $row["units"];
         $this->description = $row["description"];
+        $this->viewCount = $row["viewCount"];
 
         if($row["thumbnail"] != null)
         {
@@ -56,5 +57,19 @@ class Coffee
             $this->thumbnail = "images/CoffeeThumbnail.jpg";
         }
 
+        $dbh = new DBHelper();
+        $query = "SELECT AVG(rating) FROM Ratings WHERE productCode=$this->productCode";
+        $rRow = mysqli_fetch_array($dbh->query($query));
+
+        if($rRow != null && $rRow["AVG(rating)"] != null){
+            $this->avgRating = $rRow["AVG(rating)"];
+        }
+        else{
+            $this->avgRating = 0;
+        }
+    }
+
+    public function displayName(){
+        return $this->country." ".$this->name;
     }
 }
