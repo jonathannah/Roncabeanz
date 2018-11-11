@@ -39,7 +39,7 @@ session_write_close();
     <?php include 'Header.php'; ?>
 </div>
 <div class="row"></div>
-<h1>The Beanz Customers</h1>
+<h1>Your Shopping Cart</h1>
 
 <?php
 //Step2
@@ -60,11 +60,11 @@ session_write_close();
             for ($i = 0; $i < count($shoppingCart->getCartItems()); ++$i){
                 echo '<tr>';
                 $item = $shoppingCart->getCartItems()[$i];
-                $query = "SELECT name, country, price, units FROM Roncabeanz.Coffee  WHERE productCode = $item->productId ORDER BY 'name'";
+                $query = "SELECT name, country, price FROM Roncabeanz.Coffee  WHERE productCode = $item->productId ORDER BY 'name'";
                 $result = $dbh->query($query);
                 $row = mysqli_fetch_array($result);
                 echo '<td>', $i, '</td>';
-                echo '<td>', $item->count, ' ', $row["units"], '</td>';
+                echo '<td>', $item->count, ' ', '</td>';
                 echo '<td>',$row["country"] , ' ', $row["name"], '</td>';
                 $totalCost += ($item->count * $row["price"]);
                 echo '<td>', $row["price"], '</td>';

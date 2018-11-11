@@ -45,7 +45,7 @@ $dbh = new DBHelper();
 
   <?php
     //Step2
-    $query = "SELECT name, country, price, units, description, productCode, thumbnail FROM `Coffee` ORDER BY country, name ASC";
+    $query = "SELECT name, country, price, description, productCode, thumbnail FROM `Coffee` ORDER BY country, name ASC";
 
     //Step3
     $result = $dbh->query($query);

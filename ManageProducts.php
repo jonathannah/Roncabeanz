@@ -34,6 +34,9 @@ $dbh = new DBHelper();
          tr:nth-child(even) {
              background-color: #dddddd;
          }
+
+
+    }
      </style>
 
  </head>
@@ -116,7 +119,7 @@ $dbh = new DBHelper();
 
 <?php
 //Step2
-$query = "SELECT country, name, price, units, description, productCode, thumbnail, viewCount FROM `Coffee` ORDER BY country, name ASC";
+$query = "SELECT country, name, price, description, productCode, thumbnail, viewCount FROM `Coffee` ORDER BY country, name ASC";
 
 //Step3
 $result = $dbh->query($query);
@@ -124,6 +127,13 @@ $num_fields = mysqli_num_fields($result);
 $fields = mysqli_fetch_fields($result);
 //$row = mysqli_fetch_array($result);
 ?>
+
+<div>
+    <br><br>
+    <a href="ResetViewCount.php" class="btn">Reset View Counts</a>
+
+</div>
+<div><br><br></div>
 <table id="ProductTable">
     <tr>
         <?php for ($i = 0; $i < $num_fields; $i++){ ?>

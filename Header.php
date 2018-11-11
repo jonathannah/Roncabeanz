@@ -156,6 +156,7 @@ session_write_close();
                         echo '<a href="ShowCustomers.php">Mangage Customers</a>';
                         echo '<a href="ManageFeedback.php">Mangage Customer Feedback</a>';
                         echo '<a href="ManageProducts.php">Mangage Products</a>';
+                        echo '<a href="TeamInteropTest.php?feedName=RoncabeanzUser&feedUri=http%3A%2F%2Froncabeanz.com%2FRoncabeanz%2FReadUsers.php">Marketplace Customers</a>';
                     }
                     else {
                         echo '<a href="ShowPurchases.php">Order History</a>';

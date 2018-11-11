@@ -32,6 +32,12 @@ while ($row = mysqli_fetch_array($result)){
     $cur["firstName"] = $user->fname;
     $cur["lastName"] = $user->lname;
     $cur["emailAddress"] = $user->email;
+    $cur["address"] = $user->primaryAddr->address;
+    $cur["apt"] = $user->primaryAddr->apt;
+    $cur["city"] = $user->primaryAddr->city;
+    $cur["state"] = $user->primaryAddr->state;
+    $cur["zipcode"] = $user->primaryAddr->zipCode;
+    $cur["phone"] = $user->primaryAddr->phone;
 
     array_push($users, $cur);
 }

@@ -131,7 +131,7 @@
         <div class="container">
             <?php
                 $numItems = 0;
-                $query = "SELECT productCode, name, country, price, units, description, thumbnail, viewCount FROM `Coffee` WHERE 1 ORDER BY viewCount DESC";
+                $query = "SELECT productCode, name, country, price, description, thumbnail, viewCount FROM `Coffee` WHERE 1 ORDER BY viewCount DESC";
                 $result = $dbh->query($query);
                 while (($row = mysqli_fetch_array($result)) AND $numItems < ROW_COUNT){
                     $coffee = Coffee::fromRow($row);
@@ -182,7 +182,7 @@
 
                             <?php
                             foreach($items as $item){
-                                $query = "SELECT productCode, name, country, price, units, description, thumbnail, viewCount FROM `Coffee` WHERE productCode=$item";
+                                $query = "SELECT productCode, name, country, price, description, thumbnail, viewCount FROM `Coffee` WHERE productCode=$item";
                                 $result = $dbh->query($query);
                                 $coffee = Coffee::fromRow(mysqli_fetch_array($result));
                                 ?>
