@@ -19,10 +19,11 @@ if((isset($siteName) && strlen($siteName) > 0) && (isset($siteUri) && strlen($si
     array_push($userServers, new TeamEndPoints($siteName, $siteUri));
 }
 else {
-    array_push($userServers, new TeamEndPoints("The Beanz Users", "http://roncabeanz.com/Roncabeanz/ReadUsers.php"));
-    array_push($userServers, new TeamEndPoints("The Beanz Products", "http://roncabeanz.com/Roncabeanz/ReadProducts.php"));
     array_push($userServers, new TeamEndPoints("Think Full Stack Users", "http://www.thinkinfullstack.com/project/apiusers.php"));
-    array_push($userServers, new TeamEndPoints("Think Full Stack Products", "http://www.thinkinfullstack.com/project/apiproducts.php"));
+    //array_push($userServers, new TeamEndPoints("Think Full Stack Products", "http://www.thinkinfullstack.com/project/apiproducts.php"));
+    array_push($userServers, new TeamEndPoints("Yarnix Users", "https://yarnix.com/curluser/"));
+    array_push($userServers, new TeamEndPoints("The Beanz Users", "http://roncabeanz.com/Roncabeanz/ReadUsers.php"));
+    //array_push($userServers, new TeamEndPoints("The Beanz Products", "http://roncabeanz.com/Roncabeanz/ReadProducts.php"));
 }
 
  ?>
