@@ -7,27 +7,23 @@
  */
 
 include_once 'lib/CurlHelper.php';
+include_once 'lib/Interoperability.php';
+
 
 $siteName = htmlspecialchars($_GET["feedName"]);
 $siteUri= utf8_decode($_GET["feedUri"]);
 
-class TeamEndPoints
-{
-    public $name;
-    public $requestUrl;
+$userServers = array();
 
-    public function __construct($name, $requestUrl)
-    {
-        $this->name = $name;
-        $this->requestUrl = $requestUrl;
-    }
+if((isset($siteName) && strlen($siteName) > 0) && (isset($siteUri) && strlen($siteUri) > 0)){
+    array_push($userServers, new TeamEndPoints($siteName, $siteUri));
 }
-
-$userServers = array(
-    //new TeamEndPoints("The Beanz Users", "http://roncabeanz.com/Roncabeanz/ReadUsers.php"),
-    //new TeamEndPoints("The Beanz Products", "http://roncabeanz.com/Roncabeanz/ReadProducts.php")
-    new TeamEndPoints($siteName, $siteUri)
-);
+else {
+    array_push($userServers, new TeamEndPoints("The Beanz Users", "http://roncabeanz.com/Roncabeanz/ReadUsers.php"));
+    array_push($userServers, new TeamEndPoints("The Beanz Products", "http://roncabeanz.com/Roncabeanz/ReadProducts.php"));
+    array_push($userServers, new TeamEndPoints("Think Full Stack Users", "http://www.thinkinfullstack.com/project/apiusers.php"));
+    array_push($userServers, new TeamEndPoints("Think Full Stack Products", "http://www.thinkinfullstack.com/project/apiproducts.php"));
+}
 
  ?>
 <html>
@@ -64,7 +60,7 @@ $userServers = array(
     <?php include 'Header.php'; ?>
   </div>
  <div class="row"></div>
- <h1>Marketplace Customers</h1>
+ <h1>Marketplace</h1>
 
  <?php
     foreach ($userServers as $cur) {
@@ -101,7 +97,6 @@ $userServers = array(
         </table>
         <?php
     } ?>
- ?>
 
 </body>
 </html>
