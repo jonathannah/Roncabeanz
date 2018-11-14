@@ -21,7 +21,7 @@ class User
     public static function fromQuery($uid)
     {
         $dbh = new DBHelper();
-        $query = "SELECT lastName, firstName, emailAddress, password, groupID FROM  `User` WHERE 'emailAddress' = $uid";
+        $query = "SELECT lastName, firstName, emailAddress, password, groupID FROM  User WHERE emailAddress = '$uid'";
         $result = $dbh->query($query);
 
         $row = mysqli_fetch_array($result);

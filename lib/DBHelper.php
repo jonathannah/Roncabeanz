@@ -28,6 +28,14 @@ class DBHelper
         $this->mySqliCon = $conn;
     }
 
+    public function __destruct(){
+        if($this->mySqliCon != null)
+        {
+            $this->mySqliCon->close();
+            $this->mySqliCon = null;
+        }
+    }
+
     public function close()
     {
         if($this->mySqliCon != null)
