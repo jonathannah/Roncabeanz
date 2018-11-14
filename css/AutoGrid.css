@@ -73,6 +73,23 @@ div {
     box-sizing: border-box;
     width: 100%;
 }
+.infiniteContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    height: 10%;
+    overflow-x: auto;
+    white-space: nowrap;
+
+}
+
+.infiniteCell {
+    flex: fit-content;
+    padding: 10px;
+    display: inline-block;
+    width: 220px;
+
+}
 
 .container {
     display: flex;
@@ -97,8 +114,8 @@ div {
 }
 
 .data {
-    justify-content: middle;
-    flex: 1
+    justify-content: center;
+    white-space: normal;
 }
 
 @media only screen and (max-width: 640px) {
