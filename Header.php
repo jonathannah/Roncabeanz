@@ -12,6 +12,8 @@ if($_SESSION[SHOPPING_CART] == null) {
     $_SESSION[SHOPPING_CART] = new ShoppingCart();
 }
 $shoppingCart = $_SESSION[SHOPPING_CART];
+$_SESSION['admin'] = false;
+
 session_write_close();
 
 $uToken = htmlspecialchars($_GET["userToken"]);
@@ -19,6 +21,9 @@ $mktUser = null;
 if($uToken != ""){
     $mktUser = User::fromToken($uToken);
 }
+
+$isAdmin = false;
+
 
 ?>
 
@@ -173,6 +178,9 @@ if($uToken != ""){
             $result = $dbh_hdr->query($query);
             $row = mysqli_fetch_array($result);
             $isAdmin = $row["groupID"] == "Administrator";
+            session_start();
+            $_SESSION['admin'] = $isAdmin;
+            session_write_close();
             ?>
             <div class="dropdown">
                 <button class="dropbtn">Hello <?php echo $user; ?></button>

@@ -42,17 +42,27 @@ $userSearchMap = array();
      session_write_close();
  ?>
  <div class="container">
-    <?php include 'Header.php'; ?>
-  </div>
+    <?php
+        include 'Header.php';
+    ?>
+</div>
+
+ <?php
+ $isAdmin = $_SESSION['admin'];
+ if(!$isAdmin){ ?>
+     <h1> <br><br> You do not have permission to view this page!</h1> <?php
+ }
+else{
+ ?>
  <div class="row"></div>
  <div>
 
      <div class="ui-widget">
-         <label for="searchUser">Search by Name, email, or phone number: </label>
-         <input id="searchUser", placeholder="Search User", style="width: 25%">
+         <label for="searchUser" style="font-size: 2vh">Search for User: <br></label>
+         <br>
+         <input id="searchUser", placeholder="Enter Name, email, or phone number", style="height: 50px; width: 400px">
      </div>
-
-
+     <br>
  </div>
  <h1>The Beanz Customers</h1>
 
@@ -127,6 +137,6 @@ $dbh->close();
          }
      });
  </script>
-
+<?php } ?>
 </body>
 </html>
