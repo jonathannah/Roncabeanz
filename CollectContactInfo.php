@@ -1,7 +1,7 @@
 <?php
-include 'db_connnection.php';
+include 'lib/DBHelper.php';
 
-$conn = OpenCon();
+$dbh = new DBHelper();
 ?>
 
 <!doctype html>
@@ -88,11 +88,7 @@ if(isset($_POST['email'])) {
                       '$email', 
                       '$comments'
                     )";
-    if ($conn->query($sql) === TRUE) {
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-     
+    $dbh->query($sql);
  
     $email_message .= "First Name: ".clean_string($first_name)."\n";
     $email_message .= "Last Name: ".clean_string($last_name)."\n";
@@ -123,7 +119,7 @@ $headers = 'From: '.$email_from."\r\n".
 Thank you for contacting us. We will be in touch with you very soon.
  
 <?php
- 
+ $dbh->close();
 }
 ?>
 <body>

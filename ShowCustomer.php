@@ -37,24 +37,29 @@ $cust = User::fromQuery($uid);
         </tr>
         <tr>
             <td>Address</td>
-            <td> <?php echo $cust->primaryAddr->address;?></td>
+            <td> <?php echo $cust->address;?></td>
         </tr>
         <tr>
             <td>City</td>
-            <td><?php echo $cust->primaryAddr->city;?></td>
+            <td><?php echo $cust->city;?></td>
         </tr>
         <tr>
             <td>State</td>
-            <td><?php echo $cust->primaryAddr->state;?></td>
+            <td><?php echo $cust->state;?></td>
         </tr>
         <tr>
             <td>Zip Code</td>
-            <td><?php echo $cust->primaryAddr->zipCode;?></td>
+            <td><?php echo $cust->zipCode;?></td>
         </tr>
         <tr>
             <td>Phone Number</td>
-            <td><?php echo $cust->primaryAddr->phone;?></td>
+            <td><?php echo $cust->homePhone;?></td>
         </tr>
+        <tr>
+            <td>Cell Phone Number</td>
+            <td><?php echo $cust->cellPhone;?></td>
+        </tr>
+
     </table>
 </div>
 <h1>Orders</h1>

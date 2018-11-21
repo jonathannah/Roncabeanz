@@ -6,18 +6,18 @@
  * Time: 8:51 PM
  */
 
-include 'db_connnection.php';
+include 'lib/DBHelper.php';
 include 'lib/Cookies.php';
 
 session_start();
 
-$conn = OpenCon();
+$dbh = new DBHelper();
 
 $msg = "hmmm!";
 
 if(isset($_POST['email']) AND isset($_POST['psw'])) {
     $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE emailAddress='{$_POST['email']}' ";
-    $result = mysqli_query($conn, $query) or die("The email or password you entered is not valid");
+    $result = $dbh->query($query);
 
     $fields = mysqli_fetch_fields($result);
 
@@ -71,6 +71,6 @@ if(isset($_POST['email']) AND isset($_POST['psw'])) {
 
 <?php
 //Step 4
-CloseCon($conn);
+$dbh->close();
 ?>
 

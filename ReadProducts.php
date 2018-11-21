@@ -34,7 +34,7 @@ while ($row = mysqli_fetch_array($result)){
     $curRet["price"] = $curProd->price;
     $curRet["productCode"] = $curProd->productCode;
     $curRet["averageRating"] = $curProd->avgRating;
-    $curRet["ratingRange"] = '0,5';
+    $curRet["viewCount"] = $curProd->viewCount;
     $curRet["thumbnail"] = "http://roncabeanz.com/Roncabeanz/$curProd->thumbnail";
     $curRet["clickTo"] = "http://roncabeanz.com/Roncabeanz/ShowCoffee.php?productCode=$curProd->productCode";
     $curRet["description"] = $curProd->description;

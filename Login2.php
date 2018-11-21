@@ -1,11 +1,11 @@
 <?php
 
-include 'db_connnection.php';
+include 'lib/DBHelper.php';
 include 'lib/Cookies.php';
 
 session_start();
 
-$conn = OpenCon();
+$dbh = new DBHelper();
 
 $msg = "hmmm!";
 
@@ -15,7 +15,7 @@ $upwd = htmlspecialchars($_GET["psw"]);
 
 if(isset($uname) AND isset($upwd)) {
     $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE LOWER(emailAddress)=LOWER('$uname') ";
-    $result = mysqli_query($conn, $query) or die("The email or password you entered is not valid");
+    $result = $dbh->query($query);
 
     $fields = mysqli_fetch_fields($result);
 
@@ -70,6 +70,6 @@ if(isset($uname) AND isset($upwd)) {
 
 <?php
 //Step 4
-CloseCon($conn);
+$dbh->close();
 ?>
 

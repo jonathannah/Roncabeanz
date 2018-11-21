@@ -3,10 +3,23 @@
 include_once "lib/Cookies.php";
 include_once 'lib/DBHelper.php';
 include_once './lib/ShoppingCart.php';
+include_once 'lib/User.php';
+
 $dbh_hdr = new DBHelper();
 session_start();
+
+if($_SESSION[SHOPPING_CART] == null) {
+    $_SESSION[SHOPPING_CART] = new ShoppingCart();
+}
 $shoppingCart = $_SESSION[SHOPPING_CART];
 session_write_close();
+
+$uToken = htmlspecialchars($_GET["userToken"]);
+$mktUser = null;
+if($uToken != ""){
+    $mktUser = User::fromToken($uToken);
+}
+
 ?>
 
 
@@ -74,19 +87,28 @@ session_write_close();
     }
 </script>
 
-<div class="form-popup" id="createAccountForm" align="center" >
-    <form action="CreateAccount.php" method="post" class="form-container">
+<div class="form-popup" id="createAccountForm" align="center" style="width: 100%">
+    <form action="CreateAccount.php" method="post" class="form-container" style="width: 100%">
         <h1>Login</h1>
 
-        <label for="firstName"><b>First Name</b></label>
-        <input type="text" placeholder="Enter First Name" name="firstName" required>
-        <label for="lastName"><b>Last Name</b></label>
-        <input type="text" placeholder="Enter Last Name" name="lastName" required>
-        <label for="email"><b>Email</b></label>
+        <tr c>
+            <td >
+                <input type="text" placeholder="Enter First Name" placeholder="First Name" name="firstName" required >
+            </td>
+            <td >
+                <input type="text" placeholder="Enter Last Name" placeholder="Last Name" name="lastName" required>
+            </td>
+        </tr>
+        <div></div>
         <input type="text" placeholder="Enter Email" name="email" required>
-        <label for="psw"><b>Password</b></label>
+        <input type="text" placeholder="Enter Address" name="addr" required>
+        <input type="text" placeholder="Apartment" name="apt" >
+        <input type="text" placeholder="City" name="city" required>
+        <input type="text" placeholder="State" name="state" required>
+        <input type="text" placeholder="Zipcode" name="zip" required>
+        <input type="text" placeholder="Home Phone" name="phone" required>
+        <input type="text" placeholder="Cell Phone" name="cellPhone" required>
         <input type="password" placeholder="Enter Password" name="psw" required>
-        <label for="psw_c"><b>Confirm Password</b></label>
         <input type="password" placeholder="Confirm Password" name="psw_c" onblur="confirmPass()" required>
 
         <input type="submit" class="btn" value="Create Account">
@@ -134,11 +156,16 @@ session_write_close();
         </hd1>
         <hd2>We simply respect the beans!</hd2>
     </logo>
+
     <topMenus>
         <?php
-        if(isset($_COOKIE[COOKIE_NAME])) {
+        if($mktUser != null){
+            $user = $mktUser->fname;
+        }
+        else if(isset($_COOKIE[COOKIE_NAME])) {
             $user = $_COOKIE[COOKIE_NAME];
-        } else {
+        }
+        else {
             $user = "";
         }
         if($user != "") {
@@ -164,12 +191,15 @@ session_write_close();
                     ?>
                 </div>
             </div>
-        <?php } else { ?>
+        <?php } else {
+            $retUrl = "http://roncabeanz.com/Roncabeanz/RoncabeanzMain.php";
+            ?>
             <div class="dropdown">
                 <button class="dropbtn">Login/Sign-up</button>
                 <div id="notLoggedInOpts" class="dropdown-content" >
-                     <a href="#" onclick="document.getElementById('id01').style.display='block'">Login</a>
+                    <a href="#" onclick="document.getElementById('id01').style.display='block'">Login</a>
                     <a href="#" onClick="openCreateAccountForm()">Create Account</a>
+                    <a href="http://34.213.186.3/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=<?php echo $retUrl;?>">Login Using TAM</a>
                 </div>
             </div>
         <?php } ?>

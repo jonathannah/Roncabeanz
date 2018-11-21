@@ -18,7 +18,7 @@ include_once 'lib/DBHelper.php';
 
 $dbh = new DBHelper();
 
-$query = "SELECT lastName, firstName, emailAddress, password, groupID FROM  `User` WHERE groupID = 'Customer' ORDER BY lastname, firstName";
+$query = "SELECT * FROM  `User` WHERE groupID = 'Customer' ORDER BY lastname, firstName";
 
 $result = $dbh->query($query);
 
@@ -32,12 +32,13 @@ while ($row = mysqli_fetch_array($result)){
     $cur["firstName"] = $user->fname;
     $cur["lastName"] = $user->lname;
     $cur["emailAddress"] = $user->email;
-    $cur["address"] = $user->primaryAddr->address;
-    $cur["apt"] = $user->primaryAddr->apt;
-    $cur["city"] = $user->primaryAddr->city;
-    $cur["state"] = $user->primaryAddr->state;
-    $cur["zipcode"] = $user->primaryAddr->zipCode;
-    $cur["phone"] = $user->primaryAddr->phone;
+    $cur["address"] = $user->address;
+    $cur["apt"] = $user->apt;
+    $cur["city"] = $user->city;
+    $cur["state"] = $user->state;
+    $cur["zipcode"] = $user->zipCode;
+    $cur["phone"] = $user->homePhone;
+    $cur["cellPhone"] = $user->cellPhone;
 
     array_push($users, $cur);
 }

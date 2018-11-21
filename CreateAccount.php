@@ -6,26 +6,31 @@
  * Time: 8:51 PM
  */
 
-include 'db_connnection.php';
+include 'lib/DBHelper.php';
 include 'lib/Cookies.php';
 
 session_start();
 
-$conn = OpenCon();
+$dbh = new DBHelper();
 
 $msg = "hmmm!";
 
 if(isset($_POST['email']) AND isset($_POST['psw'])) {
     $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE emailAddress='{$_POST['email']}' ";
-    $result = mysqli_query($conn, $query) or die("The email or password you entered is not valid");
-
-    $fields = mysqli_fetch_fields($result);
+    $result = $dbh->query($query);
 
     $fname = $_POST['firstName'];
     $lname = $_POST['lastName'];
     $email = $_POST['email'];
     $pwd = $_POST['psw'];
     $cpwd = $_POST['psw_c'];
+    $addr = $_POST['addr'];
+    $apt = $_POST['apt'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
+    $phone = $_POST['phone'];
+    $cellPhone = $_POST['cellPhone'];
 
     $row = mysqli_fetch_array($result);
 
@@ -36,15 +41,14 @@ if(isset($_POST['email']) AND isset($_POST['psw'])) {
 
     if($row == null && $pwd == $cpwd)
     {
-        $add = "INSERT INTO Roncabeanz.User (firstName, lastName, emailAddress, groupID, password) VALUES('$fname', '$lname', '$email', 'Customer', '$pwd')";
+        $add =   "INSERT INTO Roncabeanz.User (firstName, lastName, emailAddress, streetAddress, apt, city, state, zipCode, homePhone, cellPhone, groupID, password)";
+        $values = "VALUES('$fname', '$lname', '$email', '$addr', '$apt', '$city', '$state', '$zip', '$phone', '$cellPhone', 'Customer', '$pwd')";
 
-        if ($conn->query($add) != TRUE) {
-            $msg += "Error: " + $add + "<br>" + $conn->error;
-        }
-        else {
-            $hdr = "Location: $page";
-            header($hdr);
-        }
+        $query = $add." ".$values;
+        error_log($query);
+        $dbh->query($query);
+        $hdr = "Location: $page";
+        header($hdr);
     }
     else if($pwd != $cpwd)
     {
@@ -52,7 +56,6 @@ if(isset($_POST['email']) AND isset($_POST['psw'])) {
     }
     else
     {
-        $msg = "Account already exists";
         $msg = "Account already exists";
     }
 }
@@ -75,6 +78,6 @@ if(isset($_POST['email']) AND isset($_POST['psw'])) {
 
 <?php
 //Step 4
-CloseCon($conn);
+$dbh->close();
 ?>
 

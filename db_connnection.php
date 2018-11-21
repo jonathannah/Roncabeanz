@@ -2,6 +2,8 @@
 
 header('Content-type: text/html; charset=UTF-8');
 
+// db_connection.php
+
 define('DB_HOST',"localhost");
 define('DB_USER',"roncabeanz");
 define('DB_PASS',"C0ff33");

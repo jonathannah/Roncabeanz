@@ -18,14 +18,20 @@ else {
     array_push($userServers, new TeamEndPoints("Think Full Stack Products", "http://www.thinkinfullstack.com/project/apiproducts.php"));
 }
 
+$mktProducts = array();
+$mtkProductMap = array();
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/AutoGrid.css" rel="stylesheet" type="text/css">
-<link href="css/Header.css" rel="stylesheet" type="text/css">
+    <title>Team Alpha Market</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="css/AutoGrid.css" rel="stylesheet" type="text/css">
 
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
@@ -40,14 +46,17 @@ else {
     session_write_close();
 ?>
 
-<!-- MAIN (Center website) -->
-    <!--**************************************************************************
-    Header starts here. It contains Logo and 3 navigation links.
-    ****************************************************************************-->
 
 <div class="row">
     <h1>Team Alpha Market Place</h1>
 </div>
+
+
+<div class="ui-widget">
+    <label for="searchProd">Search Our Marketplace: </label>
+    <input id="searchProd", placeholder="Search Products", style="width: 25%">
+</div>
+
 
 
 <?php
@@ -73,6 +82,8 @@ foreach ($userServers as $cur) {
         <?php
         foreach ($products as $product) {
             $thumbnail = $product["thumbnail"];
+            array_push($mktProducts, $product["name"]);
+            $mtkProductMap[$product["name"]] = $product["clickTo"];
 
             ?>
             <div class="infiniteCell">
@@ -91,5 +102,26 @@ foreach ($userServers as $cur) {
 }
 
 ?>
+
+<script>
+    $( function() {
+        var availableTags = <?php echo json_encode($mktProducts);?>;
+        $( "#searchProd" ).autocomplete({
+            source: availableTags
+        });
+    } );
+</script>
+<script>
+    var input = document.getElementById("searchProd");
+    input.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            var name = document.getElementById("searchProd").value;
+            var prodUrls = <?php echo json_encode($mtkProductMap); ?>;
+            var prodUrl = prodUrls[name];
+            window.location.href = prodUrl;
+        }
+    });
+</script>
 </body>
 </html>
