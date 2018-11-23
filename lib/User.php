@@ -82,5 +82,30 @@ class User
         return $user;
     }
 
+    function writeUser()
+    {
+        $dbh = new DBHelper();
+
+        $query = "SELECT emailAddress FROM Roncabeanz.User WHERE emailAddress='$this->email' ";
+        $result = $dbh->query($query);
+
+        if($result->num_rows == 0) {
+
+            $add = "INSERT INTO Roncabeanz.User (firstName, lastName, emailAddress, streetAddress, apt, city, state, zipCode, homePhone, cellPhone, groupID, password)";
+            $values = "VALUES
+            (
+                '$this->fname', '$this->lname', '$this->email', '$this->address', '$this->apt', 
+                '$this->city', '$this->state', '$this->zipCode', '$this->homePhone', '$this->cellPhone', 'Customer', '$this->password'
+            )";
+
+
+            $query = $add . " " . $values;
+            // error_log($query);
+            $dbh->query($query);
+        }
+
+        $dbh->close();
+    }
+
 
 }
