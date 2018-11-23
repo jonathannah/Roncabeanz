@@ -6,47 +6,37 @@
  * Time: 8:51 PM
  */
 
-include 'lib/DBHelper.php';
-include 'lib/Cookies.php';
+include_once 'lib/DBHelper.php';
+include_once 'lib/Cookies.php';
+include_once 'lib/User.php';
 
 session_start();
-
-$dbh = new DBHelper();
 
 $msg = "hmmm!";
 
 if(isset($_POST['email']) AND isset($_POST['psw'])) {
-    $query = "SELECT firstName, lastName, emailAddress, groupID, password FROM Roncabeanz.User WHERE emailAddress='{$_POST['email']}' ";
-    $result = $dbh->query($query);
-
-    $fname = $_POST['firstName'];
-    $lname = $_POST['lastName'];
-    $email = $_POST['email'];
-    $pwd = $_POST['psw'];
+    $user = new User();
+    $user->fname = $_POST['firstName'];
+    $user->lname = $_POST['lastName'];
+    $user->email = $_POST['email'];
+    $user->password = $_POST['psw'];
     $cpwd = $_POST['psw_c'];
-    $addr = $_POST['addr'];
-    $apt = $_POST['apt'];
-    $city = $_POST['city'];
-    $state = $_POST['state'];
-    $zip = $_POST['zip'];
-    $phone = $_POST['phone'];
-    $cellPhone = $_POST['cellPhone'];
-
-    $row = mysqli_fetch_array($result);
+    $user->address = $_POST['addr'];
+    $user->apt = $_POST['apt'];
+    $user->city = $_POST['city'];
+    $user->state = $_POST['state'];
+    $user->zipCode = $_POST['zip'];
+    $user->homePhone = $_POST['phone'];
+    $user->cellPhone = $_POST['cellPhone'];
 
     $ref = $_SESSION['ref'];
     $pathParts = explode("/", $ref);
     $page = end($pathParts);
 
 
-    if($row == null && $pwd == $cpwd)
+    if($user->password == $cpwd)
     {
-        $add =   "INSERT INTO Roncabeanz.User (firstName, lastName, emailAddress, streetAddress, apt, city, state, zipCode, homePhone, cellPhone, groupID, password)";
-        $values = "VALUES('$fname', '$lname', '$email', '$addr', '$apt', '$city', '$state', '$zip', '$phone', '$cellPhone', 'Customer', '$pwd')";
-
-        $query = $add." ".$values;
-        error_log($query);
-        $dbh->query($query);
+        $user->writeUser();
         $hdr = "Location: $page";
         header($hdr);
     }

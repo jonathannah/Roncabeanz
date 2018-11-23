@@ -9,12 +9,30 @@
 include_once 'lib/ShoppingCart.php';
 include_once 'lib/DBHelper.php';
 include_once 'lib/Cookies.php';
+include_once 'lib/User.php';
 
 session_start();
 $shoppingCart = $_SESSION[SHOPPING_CART];
 $ref = $_SESSION['ref'];
 
 $user = $_COOKIE[COOKIE_EMAIL];
+if($user == null || strlen($user) == 0)
+{
+    // check for market user
+    $mktUsrToken = $_COOKIE[COOKIE_TAM_UTOKEN];
+    if($mktUsrToken != null && strlen($mktUsrToken) > 0){
+        // get user data and add to Roncabeanz
+        $mktUser = User::fromToken($mktUsrToken);
+
+        // note that user will only be added if not currently exist
+        $mktUser->writeUser();
+
+        // now, switch from mkt user to Roncabeanz user
+        setcookie(COOKIE_EMAIL, $mktUser->fname, time() + (86400 * 30), "/");
+        setcookie(COOKIE_NAME, $mktUser->email, time() + (86400 * 30), "/");
+        $_COOKIE[COOKIE_TAM_UTOKEN] = "";
+    }
+}
 
 //BEGIN;
 //INSERT INTO Orders (customerId) VALUES ('jqp@gmail.com');

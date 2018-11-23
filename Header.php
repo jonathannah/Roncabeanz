@@ -14,13 +14,21 @@ if($_SESSION[SHOPPING_CART] == null) {
 $shoppingCart = $_SESSION[SHOPPING_CART];
 $_SESSION['admin'] = false;
 
-session_write_close();
 
-$uToken = htmlspecialchars($_GET["userToken"]);
-$mktUser = null;
-if($uToken != ""){
-    $mktUser = User::fromToken($uToken);
+
+$uToken = null;
+if(isset($_GET["userToken"])) {
+    error_log("Get user token");
+    $uToken = $_GET["userToken"];
+
+    setcookie(COOKIE_TAM_UTOKEN, $uToken, time() + (86400 * 30), "/");
+    setcookie(COOKIE_NAME, "");
+    setcookie(COOKIE_EMAIL, "");
+    $_COOKIE[COOKIE_TAM_UTOKEN] = $uToken;
+    $_COOKIE[COOKIE_NAME] = "";
+    $_COOKIE[COOKIE_EMAIL] = "";
 }
+session_write_close();
 
 $isAdmin = false;
 
@@ -164,26 +172,36 @@ $isAdmin = false;
 
     <topMenus>
         <?php
-        if($mktUser != null){
-            $user = $mktUser->fname;
+        $userName = "";
+        $userEmail = "";
+        if($uToken == null && isset($_COOKIE[COOKIE_TAM_UTOKEN])){
+            $uToken = $_COOKIE[COOKIE_TAM_UTOKEN];
+        }
+
+        if($uToken != null){
+            $mktUser =     $mktUser = User::fromToken($uToken);
+            $userName = $mktUser->fname;
+            $userEmail = $mktUser->email;
         }
         else if(isset($_COOKIE[COOKIE_NAME])) {
-            $user = $_COOKIE[COOKIE_NAME];
+            $userName = $_COOKIE[COOKIE_NAME];
+            $userEmail = $_COOKIE[COOKIE_EMAIL];
         }
         else {
-            $user = "";
+            $userName = "";
         }
-        if($user != "") {
-            $query = "SELECT firstName, lastName, emailAddress, groupID FROM Roncabeanz.User WHERE emailAddress='{$_COOKIE[COOKIE_EMAIL]}' ";
+        if($userName != "") {
+            error_log("User: ".$userName.", ".$userEmail);
+            $query = "SELECT firstName, lastName, emailAddress, groupID FROM Roncabeanz.User WHERE emailAddress='{$userEmail}' ";
             $result = $dbh_hdr->query($query);
             $row = mysqli_fetch_array($result);
             $isAdmin = $row["groupID"] == "Administrator";
-            session_start();
+
             $_SESSION['admin'] = $isAdmin;
             session_write_close();
             ?>
             <div class="dropdown">
-                <button class="dropbtn">Hello <?php echo $user; ?></button>
+                <button class="dropbtn">Hello <?php echo $userName; ?></button>
                 <div class="dropdown-content">
                     <a href="LogOff.php">Log Out</a>
                     <?php
