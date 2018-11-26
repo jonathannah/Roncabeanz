@@ -6,11 +6,13 @@
 <meta charset="UTF-8">
 <title>Roncabeanz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <link href="css/Header.css" rel="stylesheet" type="text/css">
     <link href="css/Header.css" rel="stylesheet" type="text/css">
     <link href="css/AutoGrid.css" rel="stylesheet" type="text/css">
     <link href="css/roncabeanz_style.css" rel="stylesheet" type="text/css">
     <link href="css/multiColumnTemplate.css" rel="stylesheet" type="text/css">
+    <link href="css/StarRating.css" rel="stylesheet" type="text/css">
 
 
 </head>
@@ -69,7 +71,8 @@
                             'country' => $coffee->country,
                             'name' => $coffee->name,
                             'productCode' => $coffee->productCode,
-                            'thumbnail' => $coffee->thumbnail
+                            'thumbnail' => $coffee->thumbnail,
+                            'avgRating' => $coffee->avgRating * 20
                     );
 
                 }
@@ -78,8 +81,15 @@
                 ?>
                     <div class="cell">
                         <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
+                            <div class="star-ratings-css" style="margin-bottom: 10px">
+                                <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            </div>
                             <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
                             <span class="data"> <h3><?php echo $prodName ?></h3></span>
+
                         </a>
                     </div>
             <?php } ?>
@@ -108,7 +118,8 @@
                 'country' => $coffee->country,
                 'name' => $coffee->name,
                 'productCode' => $coffee->productCode,
-                'thumbnail' => $coffee->thumbnail
+                'thumbnail' => $coffee->thumbnail,
+                'avgRating' => $coffee->avgRating * 20
             );
 
         }
@@ -117,6 +128,12 @@
             ?>
             <div class="cell">
                 <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
+                    <div class="star-ratings-css" style="margin-bottom: 10px">
+                        <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        </div>
+                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                    </div>
                     <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
                     <span class="data"> <h3><?php echo $prodName ?></h3></span>
                 </a>
@@ -139,6 +156,12 @@
             ?>
                     <div class="cell">
                         <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
+                            <div class="star-ratings-css" style="margin-bottom: 10px">
+                                <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
+                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                </div>
+                                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            </div>
                             <div class="content">
                                 <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
                                 <span class="data"> <h3><?php echo $prodName; ?></h3></span>
@@ -189,7 +212,13 @@
                                     <div class="cell">
 
                                          <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
-                                            <div class="content">
+                                             <div class="star-ratings-css" style="margin-bottom: 10px">
+                                                 <div class="star-ratings-css-top" style="width: <?php echo$coffee->avgRating*20;?>%">
+                                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                 </div>
+                                                 <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                             </div>
+                                             <div class="content">
                                                 <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
                                                 <span class="data"> <h3><?php echo $coffee->displayName(); ?></h3></span>
                                             </div>

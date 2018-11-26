@@ -77,7 +77,7 @@ div {
     display: flex;
     flex-direction: row;
     padding: 10px;
-    height: 10%;
+    height: 15%;
     overflow-x: auto;
     white-space: nowrap;
 

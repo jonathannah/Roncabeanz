@@ -62,7 +62,7 @@ class Coffee
         $rRow = mysqli_fetch_array($dbh->query($query));
 
         if($rRow != null && $rRow["AVG(rating)"] != null){
-            $this->avgRating = $rRow["AVG(rating)"];
+            $this->avgRating = round(floor($rRow["AVG(rating)"] * 2) /2, 1);
         }
         else{
             $this->avgRating = 0;
