@@ -25,7 +25,7 @@
 
 
 <div class="row">
-
+<h1><br></h1>
 </div>
 
 <!-- content -->
@@ -34,8 +34,8 @@
 </div>
 
 <!-- Header content -->
-    <hr>
-    <p align="left">At Roncabeanz, we love coffee. Not the bitter coffee that most people drink, but fresh coffee made from beans that close to the roast (2 weeks, max). We obsess over the quality and flavor of a great coffee. One with hints of chocolate and fruits, and never bitter</p>
+    <div>
+    <h2 align="left">At Roncabeanz, we love coffee. Not the bitter coffee that most people drink, but fresh coffee made from beans that close to the roast (2 weeks, max). We obsess over the quality and flavor of a great coffee. One with hints of chocolate and fruits, and never bitter</h2>
   </div>
 
 <!-- content -->

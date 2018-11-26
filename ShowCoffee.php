@@ -26,6 +26,7 @@ $dbh = new DBHelper();
     ?>
 
     <link href="css/Header.css" rel="stylesheet" type="text/css">
+    <link href="css/StarRating.css" rel="stylesheet" type="text/css">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -80,16 +81,23 @@ $dbh = new DBHelper();
     ?>
 
     <div class="row">
-
+        <h1><br></h1>
     </div>
 
     <!-- Profile logo. Add a img tag in place of <span>. -->
   <div class="row">
       <div class="column1">
-          <img src="<?php echo $coffee->thumbnail;?>" width="70%" height="70%">
+          <img src="<?php echo $coffee->thumbnail;?>" width="70%">
 	  </div>
       <div class="column2">
           <h2><left><?php echo $coffee->country ?> <?php echo $coffee->name ?></left></h2>
+          <div class="star-ratings-css" style="margin-bottom: 10px;">
+              <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
+                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+              </div>
+              <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          </div>
+
           <p><?php echo $coffee->description ?> </p>
 	 <div class="row">
 		<div class="column3">

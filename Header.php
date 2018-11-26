@@ -247,4 +247,5 @@ $isAdmin = false;
     </topMenus>
 
     <?php $dbh_hdr->close(); ?>
+<div style="clear: both"><br></div>
 
