@@ -61,6 +61,21 @@ $dbh = new DBHelper();
       display: table;
       clear: both;
     }
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 80%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
     </style>
 
 
@@ -85,58 +100,85 @@ $dbh = new DBHelper();
     </div>
 
     <!-- Profile logo. Add a img tag in place of <span>. -->
-  <div class="row">
-      <div class="column1">
-          <img src="<?php echo $coffee->thumbnail;?>" width="70%">
-	  </div>
-      <div class="column2">
-          <h2><left><?php echo $coffee->country ?> <?php echo $coffee->name ?></left></h2>
-          <div class="star-ratings-css" style="margin-bottom: 10px;">
-              <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
-                  <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-              </div>
-              <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <div>
+      <div class="row" style="clear:both; margin-bottom: 10%">
+          <div class="column1">
+              <img src="<?php echo $coffee->thumbnail;?>" width="70%">
           </div>
+          <div class="column2">
+              <h2><left><?php echo $coffee->country ?> <?php echo $coffee->name ?></left></h2>
+              <div class="star-ratings-css" style="margin-bottom: 10px;">
+                  <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
+                      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                  </div>
+                  <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+              </div>
 
-          <p><?php echo $coffee->description ?> </p>
-	 <div class="row">
-		<div class="column3">
-			<select class Column3>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			</select>
-		 </div>
-		<div class="column3" >
-			<P valign="top">LB</P>
-		</div>
-		<div class="column3" >
+              <p><?php echo $coffee->description ?> </p>
+         <div class="row">
+            <div class="column3">
+                <select class Column3>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+             </div>
+            <div class="column3" >
+                <P valign="top">LB</P>
+            </div>
+            <div class="column3" >
 
 
-            <?php $item = new CartItem($coffee->productCode, 1, 1, $coffee->price); ?>
+                <?php $item = new CartItem($coffee->productCode, 1, 1, $coffee->price); ?>
 
-            <form action="AddToCart.php" method="POST">
+                <form action="AddToCart.php" method="POST">
 
-                <?php echo'<input type="hidden" name="productId" value="',$item->productId, '"/>'; ?>
-                <?php echo'<input type="hidden" name="count" value="',$item->count, '"/>'; ?>
-                <?php echo'<input type="hidden" name="amount" value="',$item->amount, '"/>'; ?>
-                <?php echo'<input type="hidden" name="cost" value="',$item->cost, '"/>'; ?>
+                    <?php echo'<input type="hidden" name="productId" value="',$item->productId, '"/>'; ?>
+                    <?php echo'<input type="hidden" name="count" value="',$item->count, '"/>'; ?>
+                    <?php echo'<input type="hidden" name="amount" value="',$item->amount, '"/>'; ?>
+                    <?php echo'<input type="hidden" name="cost" value="',$item->cost, '"/>'; ?>
 
-                <a href="#" onclick="this.parentNode.submit()">Add to Cart</a>
+                    <a href="#" onclick="this.parentNode.submit()">Add to Cart</a>
 
-                <?php
-                    $query = "UPDATE Coffee SET viewCount = viewCount + 1 WHERE productCode = $rid";
-                    $dbh->query($query);
-                ?>
-            </form>
-		</div>
-	</div>
+                    <?php
+                        $query = "UPDATE Coffee SET viewCount = viewCount + 1 WHERE productCode = $rid";
+                        $dbh->query($query);
+                    ?>
+                </form>
+            </div>
+        </div>
+      </div>
+
+  </div>
+  <div style="clear: both;">
+      <?php
+      $query = "SELECT uId, rating, comments from Roncabeanz.Ratings WHERE productCode=".$coffee->productCode;
+      $result = $dbh->query($query);
+      $num_fields = mysqli_num_fields($result);
+      $fields = mysqli_fetch_fields($result);
+      ?>
+      <table>
+          <tr>
+              <th>User</th>
+              <th>Rating</th>
+              <th>Comments</th>
+          </tr>
+          <?php
+          while(($row = mysqli_fetch_array($result)) != null){
+              echo '<tr>';
+              echo '<td>', $row["uId"], '</td>';
+              echo '<td>', $row["rating"], '</td>';
+              echo '<td>', $row["comments"], '</td>';
+              echo "</tr>";
+          }
+          ?>
+      </table>
   </div>
 
-    <?php
-    //Step 4
-    $dbh->close();
-    ?>
+  <?php
+      //Step 4
+      $dbh->close();
+  ?>
 </body>
 </html>

@@ -85,8 +85,8 @@ table, th, td{
 	background-image: -ms-linear-gradient(top, #eb94d0, #2079b0);
 	background-image: -o-linear-gradient(top, #eb94d0, #2079b0);
 	background-image: linear-gradient(to bottom, #eb94d0, #2079b0);
-	-webkit-border-radius: 28;
-	-moz-border-radius: 28;
+	-webkit-border-radius: 28px;
+	-moz-border-radius: 28px;
 	border-radius: 28px;
 
 	text-shadow: 3px 2px 1px #9daef5;
@@ -111,4 +111,11 @@ table, th, td{
 	background-image: linear-gradient(to bottom, #2079b0, #eb94d0);
 
 	text-decoration: none;
+}
+
+.btn:disabled{
+	color: GrayText;
+	cursor: inherit;
+	background-color: #666666;
+	background: #ddd;
 }

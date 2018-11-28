@@ -8,6 +8,7 @@
 
 include_once "DBHelper.php";
 include_once 'CurlHelper.php';
+include_once 'Cookies.php';
 
 class User
 {
@@ -107,5 +108,26 @@ class User
         $dbh->close();
     }
 
+    static function getCurrentUID()
+    {
+        $user = self::getCurrentUser();
+
+        if($user != null){
+            return $user->email;
+        }
+        return null;
+    }
+
+    static function getCurrentUser()
+    {
+        if(isset($_COOKIE[COOKIE_TAM_UTOKEN])){
+            return self::fromToken($_COOKIE[COOKIE_TAM_UTOKEN]);
+        }
+        else if(isset($_COOKIE[COOKIE_EMAIL])){
+            return self::fromQuery($_COOKIE[COOKIE_EMAIL]);
+        }
+
+        return null;
+    }
 
 }

@@ -78,17 +78,21 @@
                     $prodName = $cur['country']." ".$cur['name'];
                 ?>
                     <div class="cell">
-                        <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
-                            <div class="star-ratings-css" style="margin-bottom: 10px">
-                                <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
-                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <div>
+                            <a href="RateProduct.php?productCode=<?php echo $cur["productCode"];?>" title="Rate this product">
+                                <div class="star-ratings-css" style="margin-bottom: 10px; width: 135px">
+                                    <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                 </div>
-                                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                            </div>
-                            <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
-                            <span class="data"> <h3><?php echo $prodName ?></h3></span>
+                            </a>
+                            <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
+                               <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
+                                <span class="data"> <h3><?php echo $prodName ?></h3></span>
 
-                        </a>
+                            </a>
+                        </div>
                     </div>
             <?php } ?>
         </div>
@@ -125,16 +129,20 @@
             $prodName = $cur['country']." ".$cur['name'];
             ?>
             <div class="cell">
-                <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
-                    <div class="star-ratings-css" style="margin-bottom: 10px">
-                        <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
-                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                <div>
+                    <a href="#" title="Rate this product">
+                        <div class="star-ratings-css" style="margin-bottom: 10px; ">
+                            <div class="star-ratings-css-top" style="width: <?php echo $cur['avgRating'];?>%">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            </div>
+                            <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                         </div>
-                        <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                    </div>
-                    <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
-                    <span class="data"> <h3><?php echo $prodName ?></h3></span>
-                </a>
+                    </a>
+                    <a href= "ShowCoffee.php?productCode=<?php echo urlencode($cur['productCode']);?>">
+                        <span class="data"> <img src="<?php echo $cur['thumbnail'];?>" style="width:200px"></span>
+                        <span class="data"> <h3><?php echo $prodName ?></h3></span>
+                    </a>
+                </div>
             </div>
         <?php } ?>
     </div>
@@ -153,18 +161,24 @@
                     $prodName = $row["country"]." ".$row["name"];
             ?>
                     <div class="cell">
-                        <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
-                            <div class="star-ratings-css" style="margin-bottom: 10px">
-                                <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
-                                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                        <div>
+                            <a href="#" title="Rate this product">
+                                <div class="star-ratings-css" style="margin-bottom: 10px">
+                                    <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                    </div>
+                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
                                 </div>
-                                <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            </a>
+                            <div class="cell">
+                                <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
+                                    <div class="content">
+                                        <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
+                                        <span class="data"> <h3><?php echo $prodName; ?></h3></span>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="content">
-                                <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
-                                <span class="data"> <h3><?php echo $prodName; ?></h3></span>
-                            </div>
-                        </a>
+                        </div>
                     </div>
             <?php
                 ++$numItems;
@@ -208,19 +222,23 @@
                                 $coffee = Coffee::fromRow(mysqli_fetch_array($result));
                                 ?>
                                     <div class="cell">
+                                        <div>
+                                            <a href="#" title="Rate this product">
+                                                <div class="star-ratings-css" style="margin-bottom: 10px">
+                                                    <div class="star-ratings-css-top" style="width: <?php echo$coffee->avgRating*20;?>%">
+                                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                                    </div>
+                                                    <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                                                </div>
+                                            </a>
 
-                                         <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
-                                             <div class="star-ratings-css" style="margin-bottom: 10px">
-                                                 <div class="star-ratings-css-top" style="width: <?php echo$coffee->avgRating*20;?>%">
-                                                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                                                 </div>
-                                                 <div class="star-ratings-css-bottom"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                                             </div>
-                                             <div class="content">
-                                                <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
-                                                <span class="data"> <h3><?php echo $coffee->displayName(); ?></h3></span>
-                                            </div>
-                                        </a>
+                                             <a href= "ShowCoffee.php?productCode=<?php echo urlencode($coffee->productCode);?>">
+                                                <div class="content">
+                                                    <span class="data"> <img src="<?php echo $coffee->thumbnail;?>" style="width:200px"></span>
+                                                    <span class="data"> <h3><?php echo $coffee->displayName(); ?></h3></span>
+                                                </div>
+                                            </a>
+                                        </div>
                                     </div>
                                 <?php
                             }?>

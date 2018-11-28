@@ -55,8 +55,6 @@ session_write_close();
       </div>
     </section>
 
-    </section>
-
   </div>
  </body>
 </html>

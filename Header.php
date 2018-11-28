@@ -225,7 +225,7 @@ $isAdmin = false;
                 <div id="notLoggedInOpts" class="dropdown-content" >
                     <a href="#" onclick="document.getElementById('id01').style.display='block'">Login</a>
                     <a href="#" onClick="openCreateAccountForm()">Create Account</a>
-                    <a href="http://34.213.186.3/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=<?php echo $retUrl;?>">Login Using TAM</a>
+                    <a href="http://TeamAlphaMarket.com/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=<?php echo $retUrl;?>">Login Using TAM</a>
                 </div>
             </div>
         <?php } ?>

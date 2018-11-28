@@ -61,6 +61,10 @@ class DBHelper
 
     }
 
+    public function escapeString($str){
+        return $this->mySqliCon->real_escape_string($str);
+    }
+
 }
 
 

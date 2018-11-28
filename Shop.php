@@ -62,7 +62,7 @@ $dbh = new DBHelper();
             ?>
             <div class="cell">
                 <a href= "ShowCoffee.php?productCode=<?php echo urlencode($row['productCode']);?>">
-                    <div class="star-ratings-css" style="margin-bottom: 10px">
+                    <div class="star-ratings-css" style="width: 135px; margin-bottom: 10px">
                         <div class="star-ratings-css-top" style="width: <?php echo $coffee->avgRating*20;?>%">
                             <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                         </div>
@@ -76,7 +76,7 @@ $dbh = new DBHelper();
         <?php } ?>
     </div>
     <!-- END MAIN -->
-</div>
+
 <?php
 //Step 4
 $dbh->close();
