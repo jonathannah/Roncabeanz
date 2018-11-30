@@ -7,13 +7,13 @@ $uToken = htmlspecialchars($_GET["userToken"]);
 if($uToken == "")
 {
     $retAddr = urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
-    $hdr = "Location: http://34.213.186.3/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=".$retAddr;
+    $hdr = "Location: http://teamalphamarket.com/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=".$retAddr;
 
     header($hdr);
 }
 
 $ch = new CurlHelper();
-$result = $ch->get("http://34.213.186.3/TeamAlphaMarket/ReadUserInfo.php?userToken=".$uToken);
+$result = $ch->get("http://teamalphamarket.com/TeamAlphaMarket/ReadUserInfo.php?userToken=".$uToken);
 ?>
 
 <!DOCTYPE html>

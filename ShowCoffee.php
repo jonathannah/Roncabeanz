@@ -6,7 +6,7 @@ include_once 'lib/TotalViews.php';
 include_once 'lib/Coffee.php';
 include_once 'lib/DBHelper.php';
 
-$rid = htmlspecialchars($_GET["productCode"]);
+$rid = $_GET["productCode"];
 $rViews = new RecentViews();
 $rViews->put($rid);
 

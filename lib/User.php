@@ -62,7 +62,7 @@ class User
         $user = new User();
 
         $ch = new CurlHelper();
-        $userJson = $ch->get("http://34.213.186.3/TeamAlphaMarket/ReadUserInfo.php?userToken=".$uToken);
+        $userJson = $ch->get("http://teamalphamarket.com/TeamAlphaMarket/ReadUserInfo.php?userToken=".$uToken);
 
         $udec = json_decode($userJson, TRUE);
 

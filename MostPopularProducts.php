@@ -14,7 +14,7 @@ header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json');
 
-error_log("MostPopularProducts");
+//error_log("MostPopularProducts");
 
 $dbh = new DBHelper();
 

@@ -30,6 +30,8 @@ if(isset($_GET["userToken"])) {
 }
 session_write_close();
 
+error_log("$_COOKIE[COOKIE_TAM_UTOKEN]: ".$_COOKIE[COOKIE_TAM_UTOKEN]);
+
 $isAdmin = false;
 
 
@@ -225,7 +227,7 @@ $isAdmin = false;
                 <div id="notLoggedInOpts" class="dropdown-content" >
                     <a href="#" onclick="document.getElementById('id01').style.display='block'">Login</a>
                     <a href="#" onClick="openCreateAccountForm()">Create Account</a>
-                    <a href="http://TeamAlphaMarket.com/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=<?php echo $retUrl;?>">Login Using TAM</a>
+                    <a href="http://www.TeamAlphaMarket.com/TeamAlphaMarket/GetCurrentUserToken.php?retAddr=<?php echo $retUrl;?>">Login Using TAM</a>
                 </div>
             </div>
         <?php } ?>
