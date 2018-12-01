@@ -36,17 +36,15 @@ else {
 error_log($query);
 $dbh->query($query);
 
+$returnAddress = $_GET["retAddr"];
 
-$ret = array();
-$ret["peroductCode"] = $productCode;
-$ret["user"] = $user;
-$ret["rating"] = $rating;
-$ret["coments"] = $safeComments;
+if($returnAddress == "") {
+    $returnAddress = "http://www.roncabeanz.com";
+}
+    $hdr = "Location: $returnAddress?userToken=" . $uToken;
 
-// set response code - 200 OK
-http_response_code(200);
+    header($hdr);
 
-// make it json format
-echo json_encode($ret);
+
 
 

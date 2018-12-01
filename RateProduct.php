@@ -14,6 +14,12 @@
         $returnTo = $page;
     }
 
+    $uToken = null;
+    if(isset($_GET["userToken"]))
+    {
+        $uToken = $_GET["userToken"];
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +76,15 @@
 $dbh = new DBHelper();
 
 $productCode = $_GET["productCode"];
-$user = User::getCurrentUser();
+
+$user = null;
+if($uToken != null){
+    $user = User::fromToken($uToken);
+}
+else{
+    $user = User::getCurrentUser();
+}
+
 $initialRating = 0;
 $initialComments = "";
 
