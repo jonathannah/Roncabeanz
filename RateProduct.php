@@ -70,7 +70,7 @@
 
     </style>
 
->
+</head>
 <?php
 
 $dbh = new DBHelper();
@@ -82,7 +82,6 @@ if($uToken != null){
     $user = User::fromToken($uToken);
 }
 else{
-    $user = User::getCurrentUser();
 }
 
 $initialRating = 0;

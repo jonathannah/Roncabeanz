@@ -88,6 +88,7 @@ class User
         $dbh = new DBHelper();
 
         $query = "SELECT emailAddress FROM Roncabeanz.User WHERE emailAddress='$this->email' ";
+        error_log($query);
         $result = $dbh->query($query);
 
         if($result->num_rows == 0) {
@@ -101,7 +102,7 @@ class User
 
 
             $query = $add . " " . $values;
-            // error_log($query);
+            error_log($query);
             $dbh->query($query);
         }
 

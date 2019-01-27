@@ -21,8 +21,8 @@ class CurlHelper
 
         if($result == false)
         {
-            error_log("Curl call failed");
-            die("Curl call failed");
+            error_log("Curl call failed: $url");
+            die("Curl call failed: $url");
         }
 
         return $result;
